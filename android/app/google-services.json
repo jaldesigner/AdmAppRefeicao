@@ -1,0 +1,114 @@
+{
+  "project_info": {
+    "project_number": "142759402212",
+    "firebase_url": "https://refeicaoapp.firebaseio.com",
+    "project_id": "refeicaoapp",
+    "storage_bucket": "refeicaoapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142759402212:android:553d3f6555dee57af36af1",
+        "android_client_info": {
+          "package_name": "com.admapprefeicao"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142759402212-66ab9k6n9hmblio8d6v8r2040s1bgc88.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.admapprefeicao",
+            "certificate_hash": "fd12d64e0a5fd7dc3908f96e8dab39cff86ba750"
+          }
+        },
+        {
+          "client_id": "142759402212-iifovtfj3ukn3b3dms6833mtrocpe7m3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.admapprefeicao",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "142759402212-7pcb256h18hk0ibe11jtudf6jhi841a0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3em56kzWjSJhqEdWvTc3sy9ZfimxTDF0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "142759402212-7pcb256h18hk0ibe11jtudf6jhi841a0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142759402212:android:793715cee99b2478f36af1",
+        "android_client_info": {
+          "package_name": "com.admclirefeicaoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142759402212-7pcb256h18hk0ibe11jtudf6jhi841a0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3em56kzWjSJhqEdWvTc3sy9ZfimxTDF0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "142759402212-7pcb256h18hk0ibe11jtudf6jhi841a0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142759402212:android:13aaff21878a3148f36af1",
+        "android_client_info": {
+          "package_name": "com.apprefeicao"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142759402212-7pcb256h18hk0ibe11jtudf6jhi841a0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3em56kzWjSJhqEdWvTc3sy9ZfimxTDF0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "142759402212-7pcb256h18hk0ibe11jtudf6jhi841a0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

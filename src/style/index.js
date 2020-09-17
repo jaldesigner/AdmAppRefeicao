@@ -5,6 +5,9 @@ const estilo = StyleSheet.create({
     backgroundColor: '#2D3043',
     color: '#fff',
   },
+  conteudo:{
+    padding: 10,
+  },
   card: {
     backgroundColor: '#fff',
     elevation: 3,
@@ -110,6 +113,8 @@ const estilo = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+
+  
 });
 
 export default estilo;

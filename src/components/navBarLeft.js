@@ -99,6 +99,23 @@ const navBarLeft = props => {
         </TouchableOpacity>
         <TouchableOpacity
           style={estilo.navLink}
+          onPress={() => props.navigation.navigate('Configuracao')}>
+          <Icon
+            type="FontAwesome5"
+            name="wrench"
+            style={{
+              color: '#fff',
+              backgroundColor: '#20272F',
+              borderRadius: 10,
+              padding: 5,
+              marginRight: 10,
+              fontSize: 20,
+            }}
+          />
+          <Text style={estilo.navText}>Configuração</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={estilo.navLink}
           onPress={() => sair()}>
           <Icon
             type="FontAwesome5"

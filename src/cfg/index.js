@@ -1,7 +1,13 @@
-/* eslint-disable prettier/prettier */
-const data = new Date();
+import  moment from 'moment';
+//import 'moment/locale/pt-br';
+
+//const data = new Date()
+//console.log(data);
+
+const data = new Date(moment().subtract(3,'h'));
 const mes = data.getMonth() + 1;
 const dataFull = data.getDate() + '-' + mes + '-' + data.getFullYear();
+
 export const InfData = dataFull;
 
 const INF = () => {
@@ -14,3 +20,4 @@ const INF = () => {
 };
 
 export default INF;
+

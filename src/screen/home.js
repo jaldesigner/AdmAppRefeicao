@@ -3,7 +3,6 @@ import {
   View,
   Text,
   SafeAreaView,
-  StatusBar,
   ScrollView,
   TouchableOpacity,
   StyleSheet,
@@ -24,7 +23,7 @@ export default function Home({navigation}) {
     <>
       <Container style={{backgroundColor: '#2D3043'}}>
         <BtnNav />
-        <Content padder>
+        <Content>
         <Cabecalho titulo="Home" subtitulo="Administração" />
           <View>
             <View style={estilos.boxBtn}>

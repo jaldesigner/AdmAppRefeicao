@@ -1,6 +1,3 @@
-/* eslint-disable no-trailing-spaces */
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {Icon, Button} from 'native-base';
@@ -139,6 +136,8 @@ const style = StyleSheet.create({
     borderColor: '#32465d',
     borderWidth: 0.9,
     borderStyle: 'solid',
+    borderRadius: 10,
+    padding:5,
   },
   boxTituloCard: {
     borderBottomColor: '#32465d',
@@ -149,7 +148,7 @@ const style = StyleSheet.create({
     flexDirection: 'row',
   },
   cicle: {
-    backgroundColor: '#02CD98',
+    backgroundColor: '#FF6B00',
     width: 15,
     height: 15,
     borderRadius: 7.5,

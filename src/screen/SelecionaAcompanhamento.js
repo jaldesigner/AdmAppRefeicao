@@ -202,7 +202,7 @@ const SelecionaAcompanhamento = ({ navigation }) => {
           <View>
             <Picker
               note
-              mode='dialog'
+              mode='dropdown'
               style={{ backgroundColor: '#fff' }}
               selectedValue={valueListaAcompanhamento}
               onValueChange={valueListaAcompanhamento =>

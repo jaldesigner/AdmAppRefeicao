@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {firebase} from '@react-native-firebase/auth';
 import {Container, Content, Button, Icon, Left, Right} from 'native-base';
-
+import estilos from '../style';
 //=============================
 // ==> Definição do templet
 //=============================
@@ -28,9 +28,9 @@ export default function Home({navigation}) {
     <>
       <Container style={{backgroundColor: '#2D3043'}}>
         <BtnNav />
-        <Content padder>
+        <Content style={estilos.Content}>
           <Cabecalho titulo="Pratos" subtitulo="Administração" />
-          <View>
+          <View style={estilos.conteudo}>
             <View style={estilos.boxBtn}>
               <TouchableOpacity
                 iconRight
@@ -80,44 +80,3 @@ export default function Home({navigation}) {
   );
 }
 
-const estilos = StyleSheet.create({
-  boxBtn: {
-    flexDirection: 'column',
-    marginTop: 30,
-  },
-  btn1: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 15,
-    padding: 10,
-    backgroundColor: '#02CD98',
-    justifyContent: 'center',
-    borderRadius: 15,
-    elevation: 10,
-  },
-  btn2: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 15,
-    padding: 10,
-    backgroundColor: '#5351F9',
-    justifyContent: 'center',
-    borderRadius: 15,
-    elevation: 10,
-  },
-  btn3: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 15,
-    padding: 10,
-    backgroundColor: '#F64000',
-    justifyContent: 'center',
-    borderRadius: 15,
-    elevation: 10,
-  },
-  txtBtn: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-});

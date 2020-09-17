@@ -84,14 +84,13 @@ const montagemPratoDia = ({ navigation }) => {
   useEffect(() => {
     function montagemDoDia() {
       const MontDoDia = PathDB
-      .collection('MontagemPratoDia')
-      .doc(InfData).collection('Montagens')
-      .where('Data', '==', InfData)
-      .onSnapshot(querySNP =>{
-        setListaMontagem(querySNP.docs);
-      }, erro => {
-        console.log(`Erro ao listar os Pratos: ${erro}`);
-      });
+        .collection('CardapioDoDia')
+        .where('Data', '==', InfData)
+        .onSnapshot(querySNP => {
+          setListaMontagem(querySNP.docs);
+        }, erro => {
+          console.log(`Erro ao listar os Pratos: ${erro}`);
+        });
 
     }
     setAutDb('');
@@ -105,15 +104,18 @@ const montagemPratoDia = ({ navigation }) => {
   const delOpcao = (id_montagem) => {
     const executeDel = () => {
       const item = PathDB
-      .collection('MontagemPratoDia')
-      .doc(InfData)
-      .collection('Montagens').where('ID_PRATO_MONTAGEM','==',id_montagem);
-      item.get().then((snp) => {
-        snp.forEach((doc) => {
-          doc.ref.delete();
-          setAutDb(1);
+        .collection('CardapioDoDia')
+        .where('ID_Prato_Dia', '==', id_montagem);
+
+      item.get()
+        .then((snp) => {
+          snp.forEach((doc) => {
+            console.log(doc.data().Acompanhamento);
+
+            //doc.ref.delete();
+            setAutDb(1);
+          });
         });
-      });
     }
     executeDel();
   };
@@ -124,12 +126,29 @@ const montagemPratoDia = ({ navigation }) => {
 
   const MontaPrato = (nome_opcao, id_prato) => {
     function execute() {
-      const MP = PathDB.collection('MontagemPratoDia').doc(InfData).collection('Montagens').add({
-        ID_PRATO_MONTAGEM: (+new Date).toString(16),
-        ID_PRATO: id_prato,
-        Nome_Acompanhamento: nome_opcao,
-        Data: InfData,
-      });
+      const MP = PathDB
+        .collection('CardapioDoDia')
+        .where('ID_Prato_Dia', '==', id_prato)
+        .get()
+        .then(snp => {
+          if (snp.size > 0) {
+            let arr = snp.docs;
+            arr.map(obj_i => {
+              setArrayAcom(obj_i.data().Acompanhamento);
+            });
+
+            arrayAcom.push(nome_opcao)
+            snp.forEach(item => {
+              PathDB
+                .collection('CardapioDoDia')
+                .doc(item.id)
+                .update({
+                  Acompanhamento: {arrayAcom},
+                })
+            })
+          }
+        })
+
       setAutDb(1);
     }
 
@@ -145,17 +164,34 @@ const montagemPratoDia = ({ navigation }) => {
       return <Text style={{ color: '#ccc' }}>Sem acompanhamento...</Text>;
     } else {
       const opcoes = listaMontagem.filter(opc => {
-        return opc.data().ID_PRATO === id_prato;
+        return opc.data().ID_Prato_Dia === id_prato;
       });
       const opt = opcoes.map((op, index) => {
+
+        const Op = () => {
+          //console.log(op.data().Acompanhamento);
+         
+          var contOpc = op.data().Acompanhamento.length;
+          var i = 0;
+          for (i; i < contOpc; i++) {
+            console.log(op.data().Acompanhamento.length);
+            return (
+              <Text style={estilo.txtLista}>{op.data().Acompanhamento}</Text>
+            );
+
+          }
+          return null;
+
+        }
+
         return (
           <View key={index} style={estilo.lista}>
             <View style={estilo.boxTextLista}>
               <View style={estilo.sqrLista} />
-              <Text style={estilo.txtLista}>{op.data().Nome_Acompanhamento}</Text>
+              <Op />
             </View>
             <View>
-              <TouchableOpacity onPress={() => delOpcao(op.data().ID_PRATO_MONTAGEM)}>
+              <TouchableOpacity onPress={() => delOpcao(op.data().ID_Prato_Dia)}>
                 <Icon type="FontAwesome5" style={estilo.icLista} name="trash-alt" />
               </TouchableOpacity>
             </View>
@@ -172,6 +208,7 @@ const montagemPratoDia = ({ navigation }) => {
   /* -------------------------------------------------------------------------- */
 
   const Fl = () => {
+    
     if (listaPratosDia.length === 0 || listaPratosDia.length === undefined) {
       //setAutDb(1)
       return (
@@ -191,41 +228,40 @@ const montagemPratoDia = ({ navigation }) => {
       );
 
     } else {
+      
       const lp = listaPratosDia.map((item, index) => {
-        //console.log(listaAcompanhamentosDia);
         return (
           <View key={index}>
             <CardMontagem titulo={" " + item.data().NomePratoDoDia}>
               {
                 <Picker
-                mode='dropdown'
-                style={{
-                  backgroundColor: '#fff',
-                  marginBottom: 15,
-                  marginTop: 5,
-                }}
-                selectedValue={pkValor}
-                onValueChange={pkValor => {
-                  setPkValor(pkValor);
-                  MontaPrato(pkValor, item.data().ID_Prato_Dia);
-                  setPkValor('');
-                }}>
-                <Picker.Item
-                  key={item.data().ID_Prato_Dia}
-                  value={null}
-                  label="Selecione o acompanhamento"
-                />
-                {listaAcompanhamentosDia.map((item, index) => {
-                  //console.log();
-                  return (
-                    <Picker.Item
-                      key={index}
-                      value={item.data().NomeAcompanhamento}
-                      label={item.data().NomeAcompanhamento}
-                    />
-                  );
-                })}
-              </Picker>
+                  mode='dropdown'
+                  style={{
+                    backgroundColor: '#fff',
+                    marginBottom: 15,
+                    marginTop: 5,
+                  }}
+                  selectedValue={pkValor}
+                  onValueChange={pkValor => {
+                    setPkValor(pkValor);
+                    MontaPrato(pkValor, item.data().ID_Prato_Dia);
+                    setPkValor('');
+                  }}>
+                  <Picker.Item
+                    key={item.data().ID_Prato_Dia}
+                    value={null}
+                    label="Selecione o acompanhamento"
+                  />
+                  {listaAcompanhamentosDia.map((item, index) => {
+                    return (
+                      <Picker.Item
+                        key={index}
+                        value={item.data().NomeAcompanhamento}
+                        label={item.data().NomeAcompanhamento}
+                      />
+                    );
+                  })}
+                </Picker>
               }
               <View
                 style={{

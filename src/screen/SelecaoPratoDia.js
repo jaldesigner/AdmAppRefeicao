@@ -313,7 +313,7 @@ const SelecaoPratoDia = ({ navigation }) => {
     <Container style={estilo.container}>
       <ModalLoading />
       <Content>
-        <Cabecalho titulo="Pratos do Dia" subtitulo="Selecionar" />
+        <Cabecalho titulo="Cardápio" subtitulo="Seleção" />
 
         <CardTpl titulo="Selecionar">
           <View>

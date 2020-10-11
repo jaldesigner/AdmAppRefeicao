@@ -1,47 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  Alert,
-} from 'react-native';
-import {
-  Container, Content, Icon,
-} from 'native-base';
-
-//Estilo da página
+import { View, Text, TouchableOpacity, TextInput, Alert, StyleSheet } from 'react-native';
+import { Container, Content, Icon } from 'native-base';
+import CheckBox from '@react-native-community/checkbox';
 import estilo from '../style';
-
 import DadosApp from '../cfg';
 import { Cabecalho, BtnNav } from '../components/header';
 import FooterTab_tpl from '../components/footerTab';
 import { CardTpl, BtnLight, AlertDecisao } from '../components';
 import auth from '@react-native-firebase/auth';
 import db from '@react-native-firebase/firestore';
-import { set } from 'react-native-reanimated';
+import {maskDinheiro} from '../function';
 
 export default function CadastraPrato({ navigation }) {
-  //INFO APP
   const INF = DadosApp();
-  //UID
   const UID = (+new Date).toString(36);
-
-  //PATH DB
   const DB = db().collection(INF.Categoria).doc(INF.ID_APP);
-
-  //console.log(UID);
-
-  /* -------------------------------------------------------------------------- */
-  /*                        Cria o state inicial do prato                       */
-  /* -------------------------------------------------------------------------- */
   const [valuePrato, setValuePrato] = useState('');
+  const [acrescimoDividida, setAcrescimoDividida] = useState('');
   const [prato, setPrato] = useState('');
+  const [cb, setCb] = useState(false);
   const [autDb, setAutDb] = useState('');
 
-  /* -------------------------------------------------------------------------- */
-  /*                        Função de cadastro de pratos                        */
-  /* -------------------------------------------------------------------------- */
   function CadastrarPrato() {
     if (valuePrato === '') {
       alert('Por favor digite uma medida!');
@@ -60,10 +39,6 @@ export default function CadastraPrato({ navigation }) {
       alert('Medida adicionada com sucesso!');
     }
   }
-
-  /* -------------------------------------------------------------------------- */
-  /*                   DEleta itens da lista de pratos do dia                   */
-  /* -------------------------------------------------------------------------- */
 
   const deletaPrato = (ID_Prato, NomePrato) => {
     const cfmDel = () =>
@@ -99,9 +74,6 @@ export default function CadastraPrato({ navigation }) {
     }
   }
 
-  /* -------------------------------------------------------------------------- */
-  /*                        Lista dos pratos cadastrados                        */
-  /* -------------------------------------------------------------------------- */
   useEffect(() => {
     const ExibePratos = async () => {
       const prts = await DB.collection('Medidas')
@@ -114,13 +86,30 @@ export default function CadastraPrato({ navigation }) {
     ExibePratos();
   }, [autDb]);
 
+  useEffect(() => {
+    const exbEstadoDividida = async () => {
+      const exb = await DB.collection('Configuracao').doc('Dividida').get();
+      setCb(exb.data().Ativo);
+    }
+    const exbValorDividida = async () => {
+      const exb = await DB.collection('Configuracao').doc('Acrescimo_Dividida').get();
+      setAcrescimoDividida(exb.data().Valor);
+    }
+    exbValorDividida();
+    exbEstadoDividida();
+  }, [cb]);
 
-  //console.log(prato.length);
+  const GravaEstadoDivisão = (estado) => {
+    DB.collection('Configuracao').doc('Dividida').set({
+      Ativo: estado,
+    });
+  };
 
-  /* -------------------------------------------------------------------------- */
-  /*                      Visual do programa / componentes                      */
-  /* -------------------------------------------------------------------------- */
-
+  const GravaValorDivisão = (valor) => {
+    DB.collection('Configuracao').doc('Acrescimo_Dividida').set({
+      Valor: valor,
+    });
+  };
 
   const Fl = () => {
     if (prato.length === 0 || prato.length === undefined) {
@@ -167,6 +156,48 @@ export default function CadastraPrato({ navigation }) {
                 <BtnLight value="Cadastrar" onPress={() => CadastrarPrato()} />
               </View>
             </CardTpl>
+
+            <CardTpl titulo="Dividida">
+
+              <View style={aparencia.row}>
+                <Text style={{ color: '#fff', marginRight: 10 }}>Ativar divisão</Text>
+                <CheckBox value={cb} onValueChange={novoValor => { setCb(novoValor); GravaEstadoDivisão(novoValor) }} />
+              </View>
+
+              {
+                cb == false
+                  ? <View />
+                  : (
+                    <View style={aparencia.row}>
+
+                      <View style={{ flex: 2 }}>
+                        <Text style={{ color: '#fff' }}>Valor do acrescimo</Text>
+                      </View>
+
+                      <View style={{ flex: 1 }}>
+                        <TextInput
+                          placeholderTextColor="#aaa"
+                          placeholder="Exp.: 2,00"
+                          style={estilo.inpText}
+                          value={maskDinheiro(acrescimoDividida)}
+                          onChangeText={acrescimo => {
+                            setAcrescimoDividida(acrescimo);
+                          }}
+                        />
+                      </View>
+
+                      <View>
+                        <TouchableOpacity style={{ backgroundColor: '#F64000', marginLeft: 5 }} onPress={()=>  GravaValorDivisão(maskDinheiro(acrescimoDividida))}>
+                          <Text style={{ color: '#fff', padding: 9 }}>OK</Text>
+                        </TouchableOpacity>
+                      </View>
+
+                    </View>
+                  )
+              }
+
+            </CardTpl>
+
             <CardTpl titulo="Medidas cadastradas">
               <View>
                 <Fl />
@@ -179,3 +210,10 @@ export default function CadastraPrato({ navigation }) {
     </>
   );
 }
+
+const aparencia = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  }
+});

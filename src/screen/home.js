@@ -8,48 +8,35 @@ import {
   StyleSheet,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import {Container, Content, Button, Icon, Left} from 'native-base';
-import {CardTpl} from '../components';
+import { Container, Content, Button, Icon, Left } from 'native-base';
+import { CardTpl } from '../components';
+import { BtnNavegacao_1 } from '../components/Botoes';
+import estilosG from '../style';
 
 //=============================
 // ==> Definição do template
 //=============================
-import {Cabecalho, BtnNav}from '../components/header';
+import { Cabecalho, BtnNav } from '../components/header';
 import FooterTab_tpl from '../components/footerTab';
 
-export default function Home({navigation}) {
+export default function Home({ navigation }) {
 
   return (
     <>
-      <Container style={{backgroundColor: '#2D3043'}}>
+      <Container style={{ backgroundColor: '#2D3043' }}>
         <BtnNav />
         <Content>
-        <Cabecalho titulo="Home" subtitulo="Administração" />
+          <Cabecalho titulo="Home" subtitulo="Administração" />
           <View>
-            <View style={estilos.boxBtn}>
 
-              <TouchableOpacity style={estilos.btn1} 
-              onPress={()=> navigation.navigate('Pratos')}>
-                <Text style={estilos.txtBtn}>Pratos</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={estilos.btn2}>
-                <Text style={estilos.txtBtn}>Pedidos</Text>
-              </TouchableOpacity>
-              
+            <View style={estilosG.boxBtn}>
+              <View style={{ padding: 10 }}>
+                <BtnNavegacao_1 titulo="Cardápio" page="SelecaoPratoDia" />
+                <BtnNavegacao_1 titulo="Pedidos" page="ListaPedidos" />
+                <BtnNavegacao_1 titulo="Configuração" page="Configuracao" />
+              </View>
             </View>
 
-            <View style={estilos.boxBtn}>
-
-              <TouchableOpacity style={estilos.btn3}>
-                <Text style={estilos.txtBtn}>Controle</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={estilos.btn4}>
-                <Text style={estilos.txtBtn}>Configuração</Text>
-              </TouchableOpacity>
-
-            </View>
           </View>
         </Content>
         <FooterTab_tpl />

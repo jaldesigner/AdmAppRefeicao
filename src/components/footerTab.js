@@ -16,17 +16,20 @@ const RodaPe = () => {
       <FooterTab>
         <Button onPress={() => navigation.navigate('Home')}>
           <Icon type="FontAwesome5" name="home" />
+          <Text>Home</Text>
         </Button>
-        <Button onPress={() => navigation.navigate('Pratos')}>
+        <Button onPress={() => navigation.navigate('SelecaoPratoDia')}>
           <Icon type="FontAwesome5" name="concierge-bell" />
+          <Text>Cardápio</Text>
         </Button>
-        <Button onPress={()=>navigation.navigate('ListaPedidos')} badge vertical>
-          <Badge><Text>2</Text></Badge>
+        <Button onPress={() => navigation.navigate('ListaPedidos')} badge vertical>
+          <Badge><Text>20</Text></Badge>
           <Icon type="FontAwesome5" name="list" />
-          <Text>Lista</Text>
+          <Text>Pedidos</Text>
         </Button>
-        <Button onPress={()=>navigation.navigate('Configuracao')}>
+        <Button onPress={() => navigation.navigate('Configuracao')}>
           <Icon type="FontAwesome5" name="wrench" />
+          <Text>Config</Text>
         </Button>
       </FooterTab>
     </Footer>

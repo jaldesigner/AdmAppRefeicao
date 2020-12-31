@@ -122,11 +122,12 @@ const montagemPratoDia = ({ navigation }) => {
   /*                     Insere os pratos montados no banco                     */
   /* -------------------------------------------------------------------------- */
 
-  const MontaPrato = (nome_opcao, id_prato) => {
+  const MontaPrato = (nome_opcao, id_prato, nome_prato) => {
     function execute() {
       const MP = PathDB.collection('MontagemPratoDia').doc(InfData).collection('Montagens').add({
         ID_PRATO_MONTAGEM: (+new Date).toString(16),
         ID_PRATO: id_prato,
+        Nome_Prato: nome_prato,
         Nome_Acompanhamento: nome_opcao,
         Data: InfData,
       });
@@ -207,7 +208,7 @@ const montagemPratoDia = ({ navigation }) => {
                 selectedValue={pkValor}
                 onValueChange={pkValor => {
                   setPkValor(pkValor);
-                  MontaPrato(pkValor, item.data().ID_Prato_Dia);
+                  MontaPrato(pkValor, item.data().ID_Prato_Dia, item.data().NomePratoDoDia);
                   setPkValor('');
                 }}>
                 <Picker.Item

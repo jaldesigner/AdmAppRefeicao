@@ -29,7 +29,7 @@ const SelecionaAcompanhamento = ({ navigation }) => {
   //Seta o estado do Piker
   const [listaAcompanhamento, setListaAcompanhamento] = useState([]);
   const [listaAcompanhamentoPratoDia, setListaAcompanhamentoPratoDia,] = useState('');
-  const [valueListaAcompanhamento, setValueListaAcompanhamento] = useState('');
+  const [valueListaAcompanhamento, setValueListaAcompanhamento] = useState([]);
   const [autDb, setAutDb] = useState(0);
 
   //URL do servidor

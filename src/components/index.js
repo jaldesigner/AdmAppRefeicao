@@ -28,6 +28,32 @@ export const CardTpl = ({titulo, ...props}) => {
 
 /*
  
+    ____              _       _         ____          _ _     _       
+   / ___|__ _ _ __ __| |   __| | ___   |  _ \ ___  __| (_) __| | ___  
+  | |   / _` | '__/ _` |  / _` |/ _ \  | |_) / _ \/ _` | |/ _` |/ _ \ 
+  | |__| (_| | | | (_| | | (_| | (_) | |  __/  __/ (_| | | (_| | (_) |
+   \____\__,_|_|  \__,_|  \__,_|\___/  |_|   \___|\__,_|_|\__,_|\___/ 
+                                                                      
+ 
+*/
+
+export const CardPedido = ({nome, ...props}) => {
+  return (
+    <View style={style.boxCard}>
+      <View style={style.boxTituloCard}>
+        <View style={style.circlePedidos}>
+          <Text style={style.txtCirclePedidos}>{nome.substr(0,1)}</Text>
+        </View>
+        <Text style={style.txtTituloCard}>{nome}</Text>
+      </View>
+      <View style={style.boxContentCard}>{props.children}</View>
+    </View>
+  );
+};
+
+
+/*
+ 
  __________________________       _______________________________________________________________
  7     77  _  77  _  77    \      7        77     77     77      77  _  77     77     77        7
  |  ___!|  _  ||    _||  7  |     |  _  _  ||  7  ||  _  |!__  __!|  _  ||   __!|  ___!|  _  _  |
@@ -128,6 +154,23 @@ const style = StyleSheet.create({
  
 */
 
+
+  circlePedidos: {
+    backgroundColor: '#FF6B00',
+    width:40,
+    height: 40,
+    padding: 5,
+    borderRadius: 20,
+    marginRight: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  txtCirclePedidos: {
+    fontWeight: 'bold',
+    fontSize: 25,
+    color: '#fff',
+  },
+//Card comum
   boxCard: {
     margin: 15,
     marginBottom: 5,

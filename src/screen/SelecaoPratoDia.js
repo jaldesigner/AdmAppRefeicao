@@ -167,7 +167,7 @@ const SelecaoPratoDia = ({ navigation }) => {
       if (listaPratosDia.length === undefined) {
         execute();
         setValueListaPrato('');
-        setAutDb(1);
+        //setAutDb(1);
       } else {
         const resultado = listaPratosDia.findIndex(
           acomp => acomp.data().NomePratoDoDia === valueListaPrato,
@@ -178,7 +178,7 @@ const SelecaoPratoDia = ({ navigation }) => {
         } else {
           execute();
           setValueListaPrato('');
-          setAutDb(1);
+          //setAutDb(1);
         }
       }
     }

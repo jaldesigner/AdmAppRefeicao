@@ -14,39 +14,30 @@ export default function Login({ navigation }) {
     //Cria os estados iniciais da aplicação //=>HOOKs<=/
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
+    autentic.signInWithEmailAndPassword('jaldesigner@uol.com.br', 'vidaloka');
 
-    const verificaUsuarioLogado = autentic.onUserChanged((user) => {
-        if (user) {
-            navigation.navigate("Home");
-        }
-    });
-
-    useEffect(() => {
-        verificaUsuarioLogado();
-    }, []);
-
-
+    console.log(autentic.currentUser.uid);
     //Captura o email e senha e trata com o firebase
-    async function logar(email, senha) {
-        if (email === '' || senha === '') {
-            alert("Entre com email e senha válido!");
-        }
-        else {
-            try {
-                await autentic.signInWithEmailAndPassword(email, senha);
-                alert("Logado com Sucesso!");
-            } catch (e) {
-                //alert(e.message);
-                switch (e.code) {
-                    case 'auth/wrong-password':
-                        alert('Senha incorreta!');
-                    default:
-                        alert('default');
-                }
+    // async function logar(email, senha) {
+    //     if (email === '' || senha === '') {
+    //         alert("Entre com email e senha válido!");
+    //     }
+    //     else {
+    //         try {
+    //             await autentic.signInWithEmailAndPassword(email, senha);
+    //             alert("Logado com Sucesso!");
+    //         } catch (e) {
+    //             //alert(e.message);
+    //             switch (e.code) {
+    //                 case 'auth/wrong-password':
+    //                     alert('Senha incorreta!');
+    //                 default:
+    //                     alert(e);
+    //             }
 
-            }
-        }
-    }
+    //         }
+    //     }
+    // }
 
     return (
         <>

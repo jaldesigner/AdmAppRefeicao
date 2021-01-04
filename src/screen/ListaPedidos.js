@@ -1,29 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, Alert, ActivityIndicator, StyleSheet, Modal } from 'react-native';
+import { View } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import db, { firebase } from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
 import { Container, Content, Icon, Switch, Text, } from 'native-base';
-import { Picker } from '@react-native-community/picker';
-
 import DadosApp, { InfData } from '../cfg';
-import { Cabecalho, BtnNav } from '../components/header';
-
-import { CardTpl, BtnLight, BtnSmallRight, CardPedido } from '../components';
+import { Cabecalho } from '../components/header';
+import { CardPedido } from '../components';
 import RodaPe from '../components/footerTab';
 import estilo from '../style';
 
-
-//==>Dados do App<===//
 const INF = DadosApp();
 const dataFull = InfData;
-
-//==>Dados do DB<===//
 const DB = db().collection(INF.Categoria).doc(INF.ID_APP);
-
 const SelecaoPratoDia = ({ navigation }) => {
 
-	
-	
+	const [listaPedidos, setListaPedidos] = useState([]);
+	const [listaPratos, setListaPratos] = useState([]);
+	const [listaUsuarios, setListaUsuario] = useState([]);
+
+	useEffect(() => {
+		DB.collection('PerfilUsuario')
+			.onSnapshot(snp => {
+				snp.docs.map(m => {
+					//setListaUsuario(m.data());
+
+					DB.collection('Pedidos')
+						.doc(m.data().ID_USER)
+						.collection(dataFull)
+						.onSnapshot(l => {
+							l.docs.map(mp => {
+								setListaPedidos(mp.data())
+							})
+						})
+				})
+			})
+	}, []);
+
+	console.log(listaPedidos);
+
+
+	// console.log(listaPedidos.map(i=>{
+	// 	return i.data();
+	// }));
+
+	const ListaPedidos = () => {
+	}
+
+	const ListaPratos = () => {
+	}
 
 	/* -------------------------------------------------------------------------- */
 	/*                            Designer da Aplicação                           */
@@ -73,7 +97,6 @@ const SelecaoPratoDia = ({ navigation }) => {
 							<Switch value={true}></Switch>
 						</View>
 					</View>
-
 
 				</CardPedido>
 			</Content>

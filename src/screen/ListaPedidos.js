@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import db, { firebase } from '@react-native-firebase/firestore';
-import { Container, Content, Icon, Switch, Text, } from 'native-base';
+import { Card, Container, Content, Icon, Switch, Text, } from 'native-base';
 import DadosApp, { InfData } from '../cfg';
 import { Cabecalho } from '../components/header';
 import { CardPedido } from '../components';
@@ -15,61 +15,74 @@ const DB = db().collection(INF.Categoria).doc(INF.ID_APP);
 const SelecaoPratoDia = ({ navigation }) => {
 
 	const [listaPedidos, setListaPedidos] = useState([]);
-	const [listaPratos, setListaPratos] = useState([]);
-	const [listaUsuarios, setListaUsuario] = useState([]);
+
+
+	/**+++++++++++++++++++++++++++++++++++++++++ */
 
 	useEffect(() => {
-		DB.collection('PerfilUsuario')
+		DB.collection('Pedidos')
+			.where('Data_Pedido','==',dataFull)
 			.onSnapshot(snp => {
-				snp.docs.map(m => {
-					//setListaUsuario(m.data());
-
-					DB.collection('Pedidos')
-						.doc(m.data().ID_USER)
-						.collection(dataFull)
-						.onSnapshot(l => {
-							l.docs.map(mp => {
-								setListaPedidos(mp.data())
-							})
-						})
-				})
+				setListaPedidos(snp.docs);
 			})
 	}, []);
 
 	console.log(listaPedidos);
 
-
-	// console.log(listaPedidos.map(i=>{
-	// 	return i.data();
-	// }));
-
-	const ListaPedidos = () => {
-	}
-
-	const ListaPratos = () => {
-	}
-
-	/* -------------------------------------------------------------------------- */
-	/*                            Designer da Aplicação                           */
-	/* -------------------------------------------------------------------------- */
-	return (
-		<Container style={estilo.container}>
-
-			<Content>
-				<Cabecalho titulo="Pedidos" subtitulo="Lista de pedidos" />
-				<CardPedido nome="Jonas Alves Lucas">
-
-					{/** Pedido */}
+	const pedidosUser = (array) => {
+		const pdd = array.map((ped, index) => {
+			//console.log(ped)
+			return (
+				<View key={index} style={{ backgroundColor: "#040513", padding: 5, marginBottom: 5 }}>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Icon type="FontAwesome5" name="caret-right" style={{ color: '#00D1FF', marginRight: 5 }} />
-						<Text style={{ color: '#7EE8FF' }}>Frango com quiabo - Média - R$ 14,00</Text>
+						<Text style={{ color: '#7EE8FF', fontSize: 16, fontWeight: 'bold' }}>{ped.prato + " com " + ped.acompanhamento}</Text>
 					</View>
 
-					{/** Observação */}
-					<View>
-						<View style={{ marginLeft: 15 }}>
-							<Text style={{ color: '#fff' }}>(Sem farofa)</Text>
+					<View style={{ backgroundColor: "#040513", paddingBottom: 10, paddingTop: 10, marginBottom: 10 }}>
+						<View style={{ marginLeft: 15, flexDirection: 'row', alignItems: 'center' }}>
+							<Text style={{ color: '#FF6B00', fontWeight: 'bold' }}>Medida: </Text>
+							<Text style={{ color: '#fff' }}>{ped.Medida}</Text>
 						</View>
+
+						<View style={{ marginLeft: 15, flexDirection: 'row', alignItems: 'center' }}>
+							<Text style={{ color: '#FF6B00', fontWeight: 'bold' }}>Valor: </Text>
+							<Text style={{ color: '#fff' }}>{ped.Valor}</Text>
+						</View>
+
+						<View style={{ marginLeft: 15, flexDirection: 'row', alignItems: 'center' }}>
+							<Text style={{ color: '#FF6B00', fontWeight: 'bold' }}>Observação: </Text>
+							<Text style={{ color: '#fff' }}>{ped.Observacao == "" ? "Nehuma" : ped.Observacao}</Text>
+						</View>
+					</View>
+				</View>
+			);
+		});
+		return pdd;
+	}
+
+	const ListP = () => {
+		const m = listaPedidos.map((item, index) => {
+			//console.log(item.data());
+			return (
+				<CardPedido nome={item.data().Endereco.Nome} key={index}>
+
+					{/** Pedido */}
+					{pedidosUser(item.data().Pedido)}
+
+					<View style={{
+						flexDirection: 'row', backgroundColor: '#040513', alignItems: 'center', justifyContent: 'center'
+					}}>
+						<Text style={{ color: '#FF6B00', fontWeight: 'bold', fontSize: 13 }}>Total: </Text>
+						<Text style={{ color: '#fff', fontSize: 13 }}>{item.data().Total_Pagar}</Text>
+						<Text style={{ color: '#51557D', fontSize: 25 }}> | </Text>
+
+						<Text style={{ color: '#FF6B00', fontWeight: 'bold', fontSize: 13 }}>Em mãos: </Text>
+						<Text style={{ color: '#fff', fontSize: 13 }}>{item.data().Dinheiro_em_Maos}</Text>
+						<Text style={{ color: '#51557D', fontSize: 25 }}> | </Text>
+
+						<Text style={{ color: '#FF6B00', fontWeight: 'bold', fontSize: 13 }}>Troco: </Text>
+						<Text style={{ color: '#fff', fontSize: 13 }}>{item.data().Troco}</Text>
 					</View>
 
 					{/** Endereço e dados para entrega */}
@@ -80,10 +93,9 @@ const SelecaoPratoDia = ({ navigation }) => {
 						</View>
 						<View style={{ paddingLeft: 20 }}>
 							<Text style={{ color: '#fff' }}>
-								Rua Jabotiá, 25, Itaipu, Belford Roxo
+								Rua {item.data().Endereco.Rua}, N°{item.data().Endereco.Numero} {item.data().Endereco.Complemento == "" ? '' : ", " + item.data().Endereco.Complemento}, {item.data().Endereco.Bairro}, {item.data().Endereco.Cidade}
 							</Text>
-							<Text style={{ color: '#fff' }}>CEP : 26153-300</Text>
-							<Text style={{ color: '#fff' }}>Telefone : (21) 99094-2812</Text>
+							<Text style={{ color: '#fff' }}>Telefone : {item.data().Endereco.Telefone}</Text>
 						</View>
 					</View>
 
@@ -99,6 +111,21 @@ const SelecaoPratoDia = ({ navigation }) => {
 					</View>
 
 				</CardPedido>
+			);
+		})
+
+		return m;
+
+	}
+
+	/* -------------------------------------------------------------------------- */
+	/*                            Designer da Aplicação                           */
+	/* -------------------------------------------------------------------------- */
+	return (
+		<Container style={estilo.container}>
+			<Content>
+				<Cabecalho titulo="Pedidos" subtitulo="Lista de pedidos" />
+				{ListP()}
 			</Content>
 			<RodaPe />
 		</Container>

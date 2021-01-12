@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import db, { firebase } from '@react-native-firebase/firestore';
 import { Card, Container, Content, Icon, Switch, Text, } from 'native-base';
@@ -27,13 +27,13 @@ const SelecaoPratoDia = ({ navigation }) => {
 			})
 	}, []);
 
-	//console.log(listaPedidos);
+	console.log(listaPedidos);
 
 	const pedidosUser = (array) => {
 		const pdd = array.map((ped, index) => {
 			//console.log(ped)
 			return (
-				<View key={index} style={{ backgroundColor: "#040513", padding: 5, marginBottom: 5,}}>
+				<View key={index} style={{ backgroundColor: "#040513", padding: 5, marginBottom: 5 }}>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Icon type="FontAwesome5" name="caret-right" style={{ color: '#00D1FF', marginRight: 5 }} />
 						<Text style={{ color: '#7EE8FF', fontSize: 16, fontWeight: 'bold' }}>{ped.prato + " com " + ped.acompanhamento}</Text>
@@ -63,7 +63,7 @@ const SelecaoPratoDia = ({ navigation }) => {
 
 	const ListP = () => {
 		const m = listaPedidos.map((item, index) => {
-			console.log(item.data().Endereco);
+			//console.log(item.data());
 			return (
 				<CardPedido nome={item.data().Endereco.Nome} key={index}>
 

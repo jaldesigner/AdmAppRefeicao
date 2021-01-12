@@ -29,7 +29,7 @@ export default function App() {
       <Drawer.Navigator
         drawerContent={props => <MenuLef {...props} />}
         drawerType="back"
-        initialRouteName="SelecaoPratoDia">
+        initialRouteName="Login">
         <Drawer.Screen
           name="Home"
           component={Home}
@@ -110,7 +110,8 @@ export default function App() {
         <Drawer.Screen
           name="Login"
           component={Login}
-          options={{ headerTransparent: true, title: false, headerLeft: null }}
+          options={{ headerTransparent: true, title: false, headerLeft: null, swipeEnabled: false}}
+          
         />
 
       </Drawer.Navigator>

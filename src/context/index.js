@@ -1,4 +1,4 @@
 import {createContext} from 'react';
 
-export const SelecaoPrato = createContext();
-export const SelecaoAcompanhamento = createContext();
+export const CTX_SelecaoPrato = createContext();
+export const CTX_SelecaoAcompanhamento = createContext();

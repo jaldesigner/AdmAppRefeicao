@@ -1,25 +1,25 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 const estilo = StyleSheet.create({
   container: {
     backgroundColor: '#2D3043',
-    color: '#fff',
+    color: '#fff'
   },
-  conteudo:{
-    padding: 10,
+  conteudo: {
+    padding: 10
   },
   card: {
     backgroundColor: '#fff',
     elevation: 3,
     margin: 5,
-    padding: 5,
+    padding: 5
   },
   btn1: {
     padding: 5,
     color: '#fff',
     backgroundColor: '#9940e2',
     marginBottom: 10,
-    marginTop: 10,
+    marginTop: 10
   },
   txtTitulo: {
     color: '#9940e2',
@@ -27,7 +27,7 @@ const estilo = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
     padding: 5,
-    marginBottom: 10,
+    marginBottom: 10
   },
   listaCadastroPrato: {
     marginTop: 5,
@@ -37,7 +37,7 @@ const estilo = StyleSheet.create({
     paddingLeft: 10,
     paddingTop: 5,
     paddingBottom: 5,
-    borderRadius: 10,
+    borderRadius: 10
   },
   inpText: {
     color: '#5351F9',
@@ -48,35 +48,35 @@ const estilo = StyleSheet.create({
     borderColor: '#214478',
     borderRadius: 3,
     padding: 5,
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   },
   lista: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 20,
-    marginLeft: 5,
+    marginLeft: 5
   },
   sqrLista: {
     backgroundColor: '#F6B900',
     width: 10,
     height: 10,
-    marginRight: 10,
+    marginRight: 10
   },
   txtLista: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 16
   },
   icLista: {
-    color: '#fff',
+    color: '#fff'
   },
   boxTextLista: {
     alignItems: 'center',
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   boxBtn: {
     flexDirection: 'column',
-    marginTop: 30,
+    marginTop: 30
   },
   btn1: {
     flexDirection: 'row',
@@ -86,7 +86,7 @@ const estilo = StyleSheet.create({
     backgroundColor: '#02CD98',
     justifyContent: 'center',
     borderRadius: 15,
-    elevation: 10,
+    elevation: 10
   },
   btn2: {
     flexDirection: 'row',
@@ -96,7 +96,7 @@ const estilo = StyleSheet.create({
     backgroundColor: '#5351F9',
     justifyContent: 'center',
     borderRadius: 15,
-    elevation: 10,
+    elevation: 10
   },
   btn3: {
     flexDirection: 'row',
@@ -106,15 +106,88 @@ const estilo = StyleSheet.create({
     backgroundColor: '#F64000',
     justifyContent: 'center',
     borderRadius: 15,
-    elevation: 10,
+    elevation: 10
   },
   txtBtn: {
     color: '#fff',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
 
-  
+  /* -------------------------------------------------------------------------- */
+  /*                        Configuração da tela de login                       */
+  /* -------------------------------------------------------------------------- */
+  loginBody: {
+    margin: 25
+  },
+  loginHeader: {
+    backgroundColor: '#3E4168',
+    elevation: 7,
+    padding: 20,
+    height: 200,
+    borderBottomEndRadius: 300,
+    borderBottomStartRadius: 300,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#51557D'
+  },
+  loginTextHeader: {
+    color: '#00D1FF',
+    fontSize: 36,
+    fontWeight: 'bold',
+    elevation: 7
+  },
+  // Input text
+  loginBoxTextInput: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    width: '100%',
+    marginBottom: 25,
+
+  },
+  loginBoxIconTextInput: {
+    backgroundColor: '#00D1FF',
+    width: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderTopStartRadius: 10,
+    borderBottomStartRadius: 10,
+    elevation: 5
+  },
+  loginTextInput: {
+    backgroundColor: '#3E4168',
+    paddingLeft: 10,
+    color: '#fff',
+    width: 292,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#51557D',
+    elevation: 10,
+  },
+  // Botões
+  loginBoxBtn: {
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  loginBtn: {
+    backgroundColor: '#00D1FF',
+    width: '100%',
+    alignItems: 'center',
+    borderRadius: 10,
+    padding: 10,
+    elevation: 5,
+    marginBottom: 40
+  },
+  loginTextBtn: {
+    color: '#fff',
+    fontSize: 18
+  },
+  loginTextBtnNaoEntrar: {
+    color: '#00D1FF'
+  }
+
 });
 
 export default estilo;

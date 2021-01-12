@@ -158,7 +158,6 @@ const SelecaoPratoDia = ({ navigation }) => {
         Data: dataFull,
         Ativo: true,
         infoPrato: arrayValores,
-        Acompanhamento:[],
       });
     };
 
@@ -168,7 +167,7 @@ const SelecaoPratoDia = ({ navigation }) => {
       if (listaPratosDia.length === undefined) {
         execute();
         setValueListaPrato('');
-        setAutDb(1);
+        //setAutDb(1);
       } else {
         const resultado = listaPratosDia.findIndex(
           acomp => acomp.data().NomePratoDoDia === valueListaPrato,
@@ -179,7 +178,7 @@ const SelecaoPratoDia = ({ navigation }) => {
         } else {
           execute();
           setValueListaPrato('');
-          setAutDb(1);
+          //setAutDb(1);
         }
       }
     }
@@ -241,7 +240,6 @@ const SelecaoPratoDia = ({ navigation }) => {
           }
 
         }
-        console.log(arrayValores);
         return (
           <View key={index} style={{
             alignItems: 'center',
@@ -300,7 +298,7 @@ const SelecaoPratoDia = ({ navigation }) => {
       return (
         <View style={StyleModal.container}>
           <View style={StyleModal.boxLogin}>
-            <ActivityIndicator size='large' color='#F64000'/>
+            <ActivityIndicator size='large' color='#F64000' />
           </View>
         </View>
       );
@@ -315,7 +313,7 @@ const SelecaoPratoDia = ({ navigation }) => {
     <Container style={estilo.container}>
       <ModalLoading />
       <Content>
-        <Cabecalho titulo="Pratos do Dia" subtitulo="Selecionar" />
+        <Cabecalho titulo="Cardápio" subtitulo="Seleção" />
 
         <CardTpl titulo="Selecionar">
           <View>
@@ -378,11 +376,11 @@ const StyleModal = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  boxLogin:{
-    backgroundColor:'#fff',
-    width:100,
+  boxLogin: {
+    backgroundColor: '#fff',
+    width: 100,
     height: 100,
-    justifyContent:'center',
+    justifyContent: 'center',
     borderRadius: 15,
   }
 });

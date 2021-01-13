@@ -3,46 +3,69 @@ import firebase from '@react-native-firebase/app';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/firestore';
 import {Text, View, TextInput, TouchableOpacity} from 'react-native';
+import DadosApp, {InfData} from '../cfg';
 
 // Import do estilo
 import estilo from '../style/';
-import {Container, Header, Icon} from 'native-base';
+import {Container, Icon, Toast} from 'native-base';
+const db = database().collection(DadosApp().Categoria).doc(DadosApp().ID_APP);
 
-export default function Login({navigation}) { // Cria os estados iniciais da aplicação //=>HOOKs<=/
+export default function Login({navigation}) { 
+  // Cria os estados iniciais da aplicação //=>HOOKs<=/
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [toast, setToast] = useState('');
+  const [sucesso, setSucesso] = useState(false);
 
-  const msgErro = {
-    erroEmailSenha: "Email e senha inválido!",
-    erroEmailInvalido: "Email inválido!",
-    erroSenhaInvalido: "Senha inválida!"
+
+  const getToast = (msg, posicao, tipo, tmp) => {
+    Toast.show({
+      text: msg,
+      buttonText: "Ok",
+      position: posicao,
+      type: tipo,
+      duration: tmp
+    },);
   }
 
+  // const listaAdm = (){
+  //   db.collection('ADM')
+  // }
 
-  // Checa se o usuário é administrador
-  const checaAdm = (UID) => {}
 
-  // autentic.signInWithEmailAndPassword('jaldesigner@uol.com.br', 'vidaloka');
+  const checaAdm = (UID) => {
+    const isAdm = db.collection('ADM')
+    .where('UID','==',UID)
+    .onSnapshot(snp => {
+      snp.docs.map(mp =>{
+        console.log(mp.exists);
+      })
+    });
 
-  // Função que faz o usuário logar
+  }
+  // const tempo = (tmp)=>{
+  //   setTimeout(() => {
+  //     navigation.navigate('Home');
+  //   }, tmp);
+  // }
+
   const Entrar = async () => {
-    if (email == '' || senha == '') {
-      console.log(msgErro.erroEmailSenha);
+
+    if (email == '' || senha == '') { 
+      getToast("Email ou senha inválido!", 'top', 'danger', 9000);
     } else {
       try {
         await auth().signInWithEmailAndPassword(email, senha);
+        checaAdm(auth().currentUser.uid);
+        //getToast("Sua entrada foi aprovada!\n Aguarde...", 'top', 'success', 5000);
+        
       } catch (e) {
         console.log(e.code);
         switch (e.code) {
-          case 'auth/user-not-found':
-            console.log(msgErro.erroEmailInvalido);
+          case 'auth/user-not-found': getToast("Email ou senha inválido!", 'top', 'danger', 9000)
             break;
-          case 'auth/wrong-password':
-            console.log(msgErro.erroSenhaInvalido);
+          case 'auth/wrong-password': getToast("Email ou senha inválido!", 'top', 'danger', 9000)
             break;
-          case 'auth/invalid-email':
-            console.log(msgErro.erroEmailInvalido);
+          case 'auth/invalid-email': getToast("Formato de mail inválido!", 'top', 'danger', 9000)
             break;
 
           default:
@@ -51,31 +74,6 @@ export default function Login({navigation}) { // Cria os estados iniciais da apl
       }
     }
   }
-  // console.log(auth().currentUser.uid);
-  // console.log(autentic.currentUser.uid);
-  // Captura o email e senha e trata com o firebase
-  // async function logar(email, senha) {
-  //     if (email === '' || senha === '') {
-  //         alert("Entre com email e senha válido!");
-  //     }
-  //     else {
-  //         try {
-  //             await autentic.signInWithEmailAndPassword(email, senha);
-  //             alert("Logado com Sucesso!");
-  //         } catch (e) {
-  //             //alert(e.message);
-  //             switch (e.code) {
-  //                 case 'auth/wrong-password':
-  //                     alert('Senha incorreta!');
-  //                 default:
-  //                     alert(e);
-  //             }
-
-  //         }
-  //     }
-  // }
-  // console.log(email);
-  // console.log(senha);
   return (
     <Container style={
       estilo.container

@@ -164,6 +164,8 @@ const estilo = StyleSheet.create({
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: '#51557D',
+    borderBottomRightRadius: 10,
+    borderTopRightRadius: 10,
     elevation: 10,
   },
   // Botões

@@ -198,7 +198,7 @@ const style = StyleSheet.create({
     marginRight: 10,
   },
   txtTituloCard: {
-    color: '#fff',
+    color: '#7EE8FF',
     fontSize: 20,
     fontWeight: 'bold',
   },

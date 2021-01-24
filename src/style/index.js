@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const estilo = StyleSheet.create({
   container: {
@@ -142,9 +142,9 @@ const estilo = StyleSheet.create({
   // Input text
   loginBoxTextInput: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     width: '100%',
-    marginBottom: 25,
+    marginBottom: 36,
 
   },
   loginBoxIconTextInput: {
@@ -160,7 +160,7 @@ const estilo = StyleSheet.create({
     backgroundColor: '#3E4168',
     paddingLeft: 10,
     color: '#fff',
-    width: 292,
+    width: '89%',
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: '#51557D',
@@ -189,6 +189,10 @@ const estilo = StyleSheet.create({
   loginTextBtnNaoEntrar: {
     color: '#00D1FF'
   }
+  //===============================================
+  //Estilo da página de seleção de cardápio
+  //===============================================
+  
 
 });
 

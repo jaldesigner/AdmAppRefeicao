@@ -1,4 +1,5 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect, useContext} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import {
   View,
   TouchableOpacity,
@@ -7,16 +8,16 @@ import {
   StyleSheet,
   Modal
 } from 'react-native';
-import db, {firebase} from '@react-native-firebase/firestore';
+import db, { firebase } from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import {Container, Content, Icon, Text} from 'native-base';
-import {Picker} from '@react-native-community/picker';
-import DadosApp, {InfData} from '../cfg';
-import {Cabecalho, BtnNav} from '../components/header';
-import {CardTpl, BtnLight, BtnSmallRight} from '../components';
+import { Container, Content, Icon, Item, Text } from 'native-base';
+import { Picker } from '@react-native-community/picker';
+import DadosApp, { InfData } from '../cfg';
+import { Cabecalho, BtnNav } from '../components/header';
+import { CardTpl, BtnLight, BtnSmallRight } from '../components';
 import RodaPe from '../components/footerTab';
 import estilo from '../style';
-import {CTX_SelecaoPrato} from '../context';
+import { CTX_SelecaoPrato } from '../context';
 
 
 // ==>Dados do App<===//
@@ -26,24 +27,207 @@ const dataFull = InfData;
 // ==>Dados do DB<===//
 const DB = db().collection(INF.Categoria).doc(INF.ID_APP);
 
-const SelecaoPratoDia = ({navigation}) => {
+const SelecaoPratoDia = ({ navigation }) => {
 
   /* -------------------------------------------------------------------------- */
   /*                            Estados da Aplicação                            */
   /* -------------------------------------------------------------------------- */
   const [ctx_SP, setctx_SP] = useContext(CTX_SelecaoPrato);
-  const [listaPratos, setListaPratos] = useState([]);
+  const [pratos, setPratos] = useState([]);
+  const [medidas, setMedidas] = useState([]);
+  const [valores, setValores] = useState([]);
   const [listaPratosDia, setListaPratosDia] = useState('');
   const [valueListaPrato, setValueListaPrato] = useState('');
-  const [medidas, setMedidas] = useState('');
-  const [valores, setValores] = useState('');
   const [arrayValores, setArrayValores] = useState([]);
   const [autDb, setAutDb] = useState(0);
   const [exibe, setExibe] = useState(0);
   const [loading, setLoading] = useState(true);
 
+
+
+  useEffect(() => {
+    DB.collection('Pratos')
+      .onSnapshot(snp => {
+        setPratos(snp.docs);
+      });
+  }, []);
+
+  useEffect(() => {
+    DB.collection('Medidas')
+      .onSnapshot(snp => {
+        setMedidas(snp.docs);
+      });
+  }, []);
+
+  useEffect(() => {
+    DB.collection('Valores')
+      .onSnapshot(snp => {
+        setValores(snp.docs);
+      });
+  }, []);
+
+  useFocusEffect(() => {
+    setArrayValores(arrayValores);
+    //console.log(arrayValores);
+  }, [arrayValores]);
+
+  function Prato() {
+    const pt = pratos.map((pratos, index) => {
+      return (
+        <Picker.Item key={index} value={pratos.data().NomePrato} label={pratos.data().NomePrato} />
+      );
+    });
+    return pt;
+  }
+
+  function Valor() {
+    const md = valores.map((valor, index) => {
+      
+      return (
+        <Picker.Item key={index} color="" value={valor.data().Valor} label={valor.data().Valor} />
+      );
+    });
+    return md;
+  }
+
+  /* -------------------------------------------------------------------------- */
+  /*                        Lista as Medidas cadastradas                        */
+  /* -------------------------------------------------------------------------- */
+
+  function ListaMedidasValores() {
+
+    const mv = medidas.map((mv, index) => {
+      //const lmv = [];
+      return (
+        <View key={index} style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignContent: 'center',
+          marginTop: 20,
+          backgroundColor: '#51557D',
+          padding: 10,
+        }}>
+          <View>
+            <Text style={{ color: "#fff" }}>{mv.data().Medida}</Text>
+          </View>
+          <View>
+            <Picker
+              mode='dropdown'
+              onValueChange={valor => {
+                
+                arrayValores[index] = {
+                  medida: mv.data().Medida,
+                  valor: valor,
+                  indice: index,
+                }
+                setArrayValores(arrayValores);
+                console.log(arrayValores);
+              }}
+              selectedValue={arrayValores[index] != undefined?arrayValores[index].valor: 'Selecione o valor'}
+              style={{
+                backgroundColor: "#fff",
+                height: 25,
+                width: 150,
+              }}
+            >
+              <Picker.Item value="" label="Selecione o valor" />
+              {Valor()}
+            </Picker>
+          </View>
+        </View>
+      );
+    });
+
+    if (valueListaPrato !== '') {
+      return mv;
+    }
+  }
+
+  /* -------------------------------------------------------------------------- */
+  /*                         Lista os pratos escolhidos                         */
+  /* -------------------------------------------------------------------------- */
+
+  function ListaSelecionados() {
+    return (
+      <View>
+        <CardTpl titulo="Selecionados">
+          <View style={{
+            backgroundColor: '#51557D',
+            padding: 5,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+              <Icon name='caret-right' type="FontAwesome5" style={{
+                color: '#00D1FF',
+              }} />
+              <Text style={{ color: '#fff', marginLeft: 5, }}>Frango Grelhado</Text>
+            </View>
+            <View>
+              <TouchableOpacity style={{
+                backgroundColor: '#FF5757',
+                //padding:5,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 20,
+                width: 40,
+                height: 40,
+                elevation: 5,
+              }}>
+                <Icon name='trash' type='FontAwesome5' style={{ color: '#fff', fontSize: 18 }} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </CardTpl>
+      </View>
+    );
+  }
+
+  /* ----------------------------------------------------------------------------- */
+  /*                    Função Geral com todas as outras funções                   */
+  /* ----------------------------------------------------------------------------- */
+
+  function SelecaoPratoDoDia() {
+    return (
+      <View>
+        <CardTpl titulo="Seleção de cardápio do dia">
+          <View style={{ backgroundColor: "#fff" }}>
+            <Picker
+              mode='dropdown'
+              itemStyle=''
+              selectedValue={valueListaPrato}
+              onValueChange={valueListaPrato =>
+                setValueListaPrato(valueListaPrato)
+              }
+            >
+
+              <Picker.Item value='' label="Selecione um prato" />
+              {Prato()}
+            </Picker>
+          </View>
+          {ListaMedidasValores()}
+          <View>
+
+          </View>
+        </CardTpl>
+      </View>
+    );
+  }
+
+
+  //Componentes
   return (
-    <Container></Container>
+    <Container style={estilo.container}>
+      <BtnNav />
+      <Content>
+        <Cabecalho titulo="Cardápio" subtitulo="Seleção" />
+        {SelecaoPratoDoDia()}
+      </Content>
+      <RodaPe />
+    </Container>
   );
 
 }

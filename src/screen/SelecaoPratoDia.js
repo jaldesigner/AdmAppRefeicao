@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext} from 'react';
-import {useFocusEffect} from '@react-navigation/native';
+import React, { useState, useEffect, useContext } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   View,
   TouchableOpacity,
@@ -39,7 +39,7 @@ const SelecaoPratoDia = ({ navigation }) => {
   const [listaPratosDia, setListaPratosDia] = useState('');
   const [valueListaPrato, setValueListaPrato] = useState('');
   const [arrayValores, setArrayValores] = useState([]);
-  const [autDb, setAutDb] = useState(0);
+  const [autoVal, setAutoVal] = useState(0);
   const [exibe, setExibe] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -68,8 +68,9 @@ const SelecaoPratoDia = ({ navigation }) => {
 
   useFocusEffect(() => {
     setArrayValores(arrayValores);
+    setAutoVal(0);
     //console.log(arrayValores);
-  }, [arrayValores]);
+  }, [autoVal]);
 
   function Prato() {
     const pt = pratos.map((pratos, index) => {
@@ -82,7 +83,7 @@ const SelecaoPratoDia = ({ navigation }) => {
 
   function Valor() {
     const md = valores.map((valor, index) => {
-      
+
       return (
         <Picker.Item key={index} color="" value={valor.data().Valor} label={valor.data().Valor} />
       );
@@ -114,16 +115,17 @@ const SelecaoPratoDia = ({ navigation }) => {
             <Picker
               mode='dropdown'
               onValueChange={valor => {
-                
+
                 arrayValores[index] = {
                   medida: mv.data().Medida,
                   valor: valor,
                   indice: index,
                 }
                 setArrayValores(arrayValores);
+                setAutoVal(1);
                 console.log(arrayValores);
               }}
-              selectedValue={arrayValores[index] != undefined?arrayValores[index].valor: 'Selecione o valor'}
+              selectedValue={arrayValores[index] != undefined ? arrayValores[index].valor : 'Selecione o valor'}
               style={{
                 backgroundColor: "#fff",
                 height: 25,
@@ -132,6 +134,7 @@ const SelecaoPratoDia = ({ navigation }) => {
             >
               <Picker.Item value="" label="Selecione o valor" />
               {Valor()}
+              <Picker.Item value={null} label="Desativado" />
             </Picker>
           </View>
         </View>
@@ -210,11 +213,26 @@ const SelecaoPratoDia = ({ navigation }) => {
           </View>
           {ListaMedidasValores()}
           <View>
-
+            <BtnLight value="Adicionar" onPress={addPratoSelecionado} />
           </View>
         </CardTpl>
       </View>
     );
+  }
+
+  /* -------------------------------------------------------------------------- */
+  /*                        Lista de pratos selecionados                        */
+  /* -------------------------------------------------------------------------- */
+
+  function addPratoSelecionado() {
+    let qntMedidas = medidas.length;
+    let qntValorSelecionado = arrayValores.length;
+
+    if(qntValorSelecionado != qntMedidas){
+      console.log("Selecione Um valor pra cada medidas ou escolha \"desativado\"")
+    }
+
+    //console.log(arrayValores.length);
   }
 
 

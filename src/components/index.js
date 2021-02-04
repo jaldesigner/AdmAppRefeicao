@@ -70,14 +70,11 @@ export const CardMontagem = ({titulo, ...props}) => {
       <View style={style.boxTituloCard}>
         <View style={{alignItems: 'center', flexDirection: 'row'}}>
           <Icon
-            style={{color: '#F6B900', fontSize: 12}}
+            style={{color: '#FF6B00', fontSize: 12, marginRight:10,}}
             type="FontAwesome5"
             name="check"
           />
-          <Text style={{fontSize: 14, color: '#fff'}}>{titulo}</Text>
-        </View>
-        <View>
-          {props.InPut}
+          <Text style={{fontSize: 18, color: '#7EE8FF'}}>{titulo}</Text>
         </View>
       </View>
       <View style={style.boxContentCard}>{props.children}</View>

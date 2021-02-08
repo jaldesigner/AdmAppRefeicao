@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
+import db from '@react-native-firebase/firestore';
 import {
   Footer,
   FooterTab,

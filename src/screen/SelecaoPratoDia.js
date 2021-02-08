@@ -14,10 +14,12 @@ import { Card, CardItem, Container, Content, Icon, Item, Text } from 'native-bas
 import { Picker } from '@react-native-community/picker';
 import DadosApp, { InfData } from '../cfg';
 import { Cabecalho, BtnNav } from '../components/header';
-import { CardTpl, BtnLight, BtnSmallRight } from '../components';
+import { CardTpl, BtnLight, BtnSmallRight, CardST } from '../components';
 import RodaPe from '../components/footerTab';
 import estilo from '../style';
 import { CTX_SelecaoPrato } from '../context';
+import moment from 'moment';
+import 'moment/locale/pt-br';
 
 
 // ==>Dados do App<== //
@@ -95,7 +97,6 @@ const SelecaoPratoDia = ({ navigation }) => {
 
   function Valor() {
     const md = valores.map((valor, index) => {
-
       return (
         <Picker.Item key={index} color="" value={valor.data().Valor} label={valor.data().Valor} />
       );
@@ -310,7 +311,11 @@ const SelecaoPratoDia = ({ navigation }) => {
   function btnAvancar() {
     if (ctx_SP.length !== 0 || ctx_SP.length !== undefined) {
       return (
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignSelf: 'flex-end', }}>
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignSelf: 'flex-end',
+        }}>
           <BtnSmallRight
             value="Próximo"
             onPress={() => navigation.navigate('MontagemPratoDia', { auto: 0 })}>
@@ -336,9 +341,41 @@ const SelecaoPratoDia = ({ navigation }) => {
     );
   } else {
     return (
-      <View>
-        <Text>Tem Cardápio</Text>
-      </View>
+      <Container style={estilo.container}>
+        <BtnNav />
+        <Content>
+          <Cabecalho titulo="Cardápio" subtitulo={moment().format('L')} />
+          <View>
+            <CardST>
+              <Text style={{ color: '#fff', textAlign: 'center' }}>O Cardápio de hoje já foi feito</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 15 }}>
+
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#51557D',
+                    justifyContent: 'center',
+                    width: 55,
+                    borderRadius: 10,
+                    elevation: 5
+                  }}
+
+                  onPress={() => {
+
+                  }}
+                >
+                  <Icon type="FontAwesome5" name="eye" style={{
+                    color: "#fff",
+                    textAlign: 'center'
+                  }} />
+                  <Text style={{ textAlign: 'center', color: '#fff' }}>Ver</Text>
+                </TouchableOpacity>
+
+              </View>
+            </CardST>
+          </View>
+        </Content>
+        <RodaPe />
+      </Container>
     );
   }
 

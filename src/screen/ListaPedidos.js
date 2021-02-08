@@ -2,16 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import db, { firebase } from '@react-native-firebase/firestore';
-import { Card, Container, Content, Icon, Switch, Text, } from 'native-base';
+import { Card, Container, Content, Icon, Right, Switch, Text, } from 'native-base';
 import DadosApp, { InfData } from '../cfg';
 import { Cabecalho } from '../components/header';
 import { CardPedido } from '../components';
 import RodaPe from '../components/footerTab';
 import estilo from '../style';
 
+import moment from 'moment';
+import 'moment/locale/pt-br';
+
 const INF = DadosApp();
 const dataFull = InfData;
 const DB = db().collection(INF.Categoria).doc(INF.ID_APP);
+
 const SelecaoPratoDia = ({ navigation }) => {
 
 	const [listaPedidos, setListaPedidos] = useState([]);
@@ -21,19 +25,23 @@ const SelecaoPratoDia = ({ navigation }) => {
 
 	useEffect(() => {
 		DB.collection('Pedidos')
-			.where('Data_Pedido','==',dataFull)
+			.where('Data_Pedido', '==', dataFull)
+			.orderBy("Hora_Pedido","asc")
 			.onSnapshot(snp => {
 				setListaPedidos(snp.docs);
+			},err =>{
+				console.log(err.message)
 			})
 	}, []);
 
-	//console.log(listaPedidos);
-
-	const pedidosUser = (array) => {
+	const pedidosUser = (array,hora) => {
 		const pdd = array.map((ped, index) => {
-			//console.log(ped)
+			//console.log(hora)
 			return (
-				<View key={index} style={{ backgroundColor: "#040513", padding: 5, marginBottom: 5,}}>
+				<View key={index} style={{ backgroundColor: "#040513", padding: 5, marginBottom: 5, }}>
+				<View>
+					<Text style={{color:'#51557D',textAlign:'right'}}>{hora}</Text>
+				</View>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Icon type="FontAwesome5" name="caret-right" style={{ color: '#00D1FF', marginRight: 5 }} />
 						<Text style={{ color: '#7EE8FF', fontSize: 16, fontWeight: 'bold' }}>{ped.prato + " com " + ped.acompanhamento}</Text>
@@ -63,12 +71,14 @@ const SelecaoPratoDia = ({ navigation }) => {
 
 	const ListP = () => {
 		const m = listaPedidos.map((item, index) => {
-			console.log(item.data().Endereco);
 			return (
 				<CardPedido nome={item.data().Endereco.Nome} key={index}>
+					<View>
+						<Text>{item.data().Hora_Pedido +' | '+ ++index}</Text>
+					</View>
 
 					{/** Pedido */}
-					{pedidosUser(item.data().Pedido)}
+					{pedidosUser(item.data().Pedido,item.data().Hora_Pedido)}
 
 					<View style={{
 						flexDirection: 'row', backgroundColor: '#040513', alignItems: 'center', justifyContent: 'center'

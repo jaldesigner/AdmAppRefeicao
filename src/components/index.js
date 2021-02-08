@@ -26,6 +26,14 @@ export const CardTpl = ({titulo, ...props}) => {
   );
 };
 
+export const CardST = ({...props}) => {
+  return (
+    <View style={style.boxCard}>
+      <View style={style.boxContentCard}>{props.children}</View>
+    </View>
+  );
+};
+
 /*
  
     ____              _       _         ____          _ _     _       

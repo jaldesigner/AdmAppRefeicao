@@ -20,7 +20,7 @@
     "@react-navigation/drawer": "^5.8.6",
     "@react-navigation/native": "^5.7.1",
     "install": "^0.13.0",
-    "moment": "^2.27.0",
+    "moment": "^2.29.2",
     "native-base": "^2.13.13",
     "react": "16.13.1",
     "react-native": "0.63.2",
